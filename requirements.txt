@@ -1,0 +1,12 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+psutil==6.0.0
+GPUtil==1.4.0
+websockets==13.1
+
+# Khusus Windows: dipakai gpu_windows.py untuk deteksi GPU generik
+# (Intel integrated / AMD) via WMI Performance Counters.
+# Environment marker di bawah membuat pip HANYA memasang paket ini di Windows;
+# di Linux/macOS baris ini otomatis diabaikan sehingga tidak error.
+WMI==1.5.1; sys_platform == "win32"
+pywin32==306; sys_platform == "win32"

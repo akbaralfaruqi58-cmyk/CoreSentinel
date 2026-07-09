@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoreSentinel — Real-time System Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="scanline-overlay"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">◈</span>
+    <div class="brand-text">
+      <h1>CoreSentinel</h1>
+      <p class="tagline">Real-time Workload &amp; Resource Telemetry</p>
+    </div>
+  </div>
+  <div class="status-cluster">
+    <div class="status-pill" id="conn-status">
+      <span class="dot"></span> <span id="conn-label">Menghubungkan…</span>
+    </div>
+    <div class="clock" id="live-clock">--:--:--</div>
+  </div>
+</header>
+
+<main class="grid">
+
+  <!-- CPU PANEL -->
+  <section class="panel panel-cpu">
+    <div class="panel-head">
+      <h2><span class="idx">01</span> CPU</h2>
+      <div class="readout-group">
+        <div class="readout">
+          <span class="readout-val" id="cpu-overall">--</span><span class="readout-unit">%</span>
+          <span class="readout-label">Beban Total</span>
+        </div>
+        <div class="readout">
+          <span class="readout-val" id="cpu-clock">--</span><span class="readout-unit">MHz</span>
+          <span class="readout-label">Clock</span>
+        </div>
+        <div class="readout">
+          <span class="readout-val" id="cpu-temp">--</span><span class="readout-unit">°C</span>
+          <span class="readout-label">Suhu</span>
+        </div>
+      </div>
+    </div>
+    <div class="core-grid" id="core-grid"><!-- bar per-core disuntik via JS --></div>
+  </section>
+
+  <!-- GPU PANEL -->
+  <section class="panel panel-gpu">
+    <div class="panel-head">
+      <h2><span class="idx">02</span> GPU</h2>
+    </div>
+    <div id="gpu-content" class="gpu-content">
+      <p class="empty-state">Mendeteksi GPU…</p>
+    </div>
+  </section>
+
+  <!-- RAM PANEL -->
+  <section class="panel panel-ram">
+    <div class="panel-head">
+      <h2><span class="idx">03</span> Memori (RAM)</h2>
+      <div class="readout-group">
+        <div class="readout">
+          <span class="readout-val" id="ram-used">--</span><span class="readout-unit">GB</span>
+          <span class="readout-label">Terpakai</span>
+        </div>
+        <div class="readout">
+          <span class="readout-val" id="ram-avail">--</span><span class="readout-unit">GB</span>
+          <span class="readout-label">Tersedia</span>
+        </div>
+      </div>
+    </div>
+    <div class="chart-wrap"><canvas id="ram-chart"></canvas></div>
+  </section>
+
+  <!-- DISK PANEL -->
+  <section class="panel panel-disk">
+    <div class="panel-head">
+      <h2><span class="idx">04</span> Disk I/O</h2>
+      <div class="readout-group">
+        <div class="readout">
+          <span class="readout-val" id="disk-read">--</span><span class="readout-unit">MB/s</span>
+          <span class="readout-label">Baca</span>
+        </div>
+        <div class="readout">
+          <span class="readout-val" id="disk-write">--</span><span class="readout-unit">MB/s</span>
+          <span class="readout-label">Tulis</span>
+        </div>
+      </div>
+    </div>
+    <div class="chart-wrap"><canvas id="disk-chart"></canvas></div>
+  </section>
+
+  <!-- PROCESS PANEL -->
+  <section class="panel panel-process">
+    <div class="panel-head">
+      <h2><span class="idx">05</span> Proses &amp; Dampak Multi-core</h2>
+      <span class="proc-count" id="proc-count">0 proses aktif</span>
+    </div>
+    <table class="proc-table">
+      <thead>
+        <tr><th>PID</th><th>Nama</th><th>Kategori</th><th>CPU%</th><th>RAM%</th></tr>
+      </thead>
+      <tbody id="proc-tbody"></tbody>
+    </table>
+  </section>
+
+  <!-- RECOMMENDATION PANEL -->
+  <section class="panel panel-reco">
+    <div class="panel-head">
+      <h2><span class="idx">06</span> Rekomendasi</h2>
+    </div>
+    <div class="reco-list" id="reco-list"></div>
+  </section>
+
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
